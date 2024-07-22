@@ -2,7 +2,7 @@
     position: absolute;
     border: 1px solid red;
     box-sizing: border-box;
-
+}
 .dimension-box{
     position: absolute;
     top: -50px;
@@ -11,4 +11,15 @@
     background-color: blue;
     color: aliceblue;
 }
+
+h1 {
+    font-family: 'Arial, sans-serif';
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+
+
+    background-color: transparent;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
