@@ -19,8 +19,8 @@ init()
     this.sensitivity = 8;
 
 
-    const dimensionBox = document.createElement("div");
-    dimensionBox.className = 'dimension-box';
+    this.dimensionBox = document.createElement("div");
+    this.dimensionBox.className = 'dimension-box';
     this.operatingMode = -1;
     this.currNode = null;
     this.createdNodeStartPos = null;
@@ -33,33 +33,12 @@ init()
     //bind() is used to create a new function with 
     //a specific this value and optionally initial arguments.
     document.addEventListener('mousedown', this.scanForDivGrabs.bind(this));
+    document.addEventListener('mousedown', this.addDimensionBox.bind(this));
 
 
+    document.addEventListener('mousemove', this.handleMouseMove.bind(this) )
 
-    document.addEventListener('mousemove', ((event)=>
-        {
-
-            const currPos = this.coord(event.clientX, event.clientY);
-            if (this.operatingMode == 0)
-                this.createModeSizeChange(currPos);  //create mode
-
-            else if (this.operatingMode == 1)
-                this.handleBorderGrab(currPos);
-                //resize mode
-
-            else if (this.operatingMode == 2)
-                this.handleCornerGrab(currPos);
-
-        } ).bind(this) )
-
-    document.addEventListener('mouseup', ((event)=>{
-        if (this.operatingMode == 0) this.endCreateMode();
-        else {
-            this.endEditMode();
-
-        }
-        //else end the edit mode cuz mouse up was triggered by one of the two
-    }).bind(this) )
+    document.addEventListener('mouseup', this.handleMouseUp.bind(this) )
 
 
 
@@ -366,6 +345,9 @@ scanForDivGrabs(event)
 
     for (const div of document.body.children){
 
+        if (window.getComputedStyle(div).position !== 'absolute' 
+    || div.tagName !== 'DIV') 
+            continue;
         const borderGrab = this.isBorderGrab(div, currPos);
         const cornerGrab = this.isCorner(div, currPos);
         
@@ -391,6 +373,50 @@ scanForDivGrabs(event)
     
     this.initializeCreateMode(currPos);
 }
+
+handleMouseMove(event)
+    {
+        //this. will refer to the event if not rebound
+
+        const currPos = this.coord(event.clientX, event.clientY);
+        if (this.operatingMode == 0)
+            this.createModeSizeChange(currPos);  //create mode
+
+        else if (this.operatingMode == 1)
+            this.handleBorderGrab(currPos);
+            //resize mode
+
+        else if (this.operatingMode == 2)
+            this.handleCornerGrab(currPos);
+        
+        if (this.operatingMode!=-1)
+            this.setDimensionBoxDimensions(this.currNode);
+
+    } 
+
+handleMouseUp(event)
+{ //this. will refer to the event if not rebound
+    if (this.operatingMode == 0) this.endCreateMode();
+    else this.endEditMode();
+
+    //remove dimension box from dom
+    this.dimensionBox.remove();
+
+    //else end the edit mode cuz mouse up was triggered by one of the two
+}
+
+setDimensionBoxDimensions(div)
+{
+    const domRectangle = div.getBoundingClientRect();
+    const text = domRectangle.width + ' x ' + domRectangle.height;
+    this.dimensionBox.textContent = text;
+}
+addDimensionBox()
+{
+    this.setDimensionBoxDimensions(this.currNode);
+    this.currNode.appendChild(this.dimensionBox);
+}
+
 
 
 }
