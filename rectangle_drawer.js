@@ -18,8 +18,6 @@ class rectangleDrawer {
     this.currNode = null;
     this.createdNodeStartPos = null;
     this.cornerOrSide = -1;
-    //this.exampleDiv.appendChild(dimensionBox);
-    //  dimensionBox.innerText = '50 x 50';
 
     //add event listeners here
 
@@ -38,7 +36,6 @@ class rectangleDrawer {
   // https://math.stackexchange.com/questions/516219/finding-out-the-area-of-a-triangle-if-the-coordinates-of-the-three-vertices-are
   //function shoelaceFormula(x1,y1,x2,y2,x3,y3)
   Area(coord1, coord2, coord3) {
-    // console.log(coord1,coord2,coord3);
     return (
       Math.abs(
         coord1.x * (coord2.y - coord3.y) +
@@ -46,16 +43,6 @@ class rectangleDrawer {
           coord3.x * (coord1.y - coord2.y)
       ) / 2
     );
-  }
-
-  drawRectangle(xPos, yPos, width, height) {
-    const div = document.createElement('div');
-    div.style.height = height + 'px';
-    div.style.width = width + 'px';
-    div.style.left = xPos + 'px';
-    div.style.top = yPos + 'px';
-    div.className = 'rectangle';
-    return document.body.appendChild(div);
   }
 
   // If it is a corner, return the corner type (0 to 3), else return -1
@@ -159,7 +146,7 @@ class rectangleDrawer {
   }
 
   // Boolean for if the cursor is close enough to corner to calculate shaded region
-  // Parameters = div.getBoundingClientRect(), corner type (0: topLeft, 1: topRight, 2: bottomRight, 3: bottomLeft)
+  // Parameters = currPos, div.getBoundingClientRect(), corner type (0: topLeft, 1: topRight, 2: bottomRight, 3: bottomLeft)
   shouldCalculateTriangleAreas(currPos, domRectangle, cornerType) {
     let point;
     if (cornerType === 0) {
@@ -411,13 +398,5 @@ mode -1 means do nothing when mouse moves
   }
 }
 
-/*
-function divRectangleObject(xPos, yPos, width, height){
-    this.xPos = xPos;
-    this.yPos = yPos;
-    this.width = width;
-    this.height = height;
-
-    */
 
 var rectDrawer = new rectangleDrawer();
