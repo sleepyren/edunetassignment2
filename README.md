@@ -14,7 +14,7 @@ Handles window resizing and scrolling
 
 ## Corners
 
-Each corner of a rectangle can be used to resize it. The corners are identified and calculated using the Gauss area formula (also known as the shoelace formula). The four corners are:
+Each corner of a rectangle can be used to resize it. The corners are identified and calculated using Gauss' area formula (also known as the shoelace formula). The four corners are:
 
 1. Top-left corner: Changes both the width and height, as well as the top and left position.
 2. Top-right corner: Changes both the width and height, as well as the top position.
